@@ -3,25 +3,17 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Dubai Property Match',
-  description: 'Answer 8 quick questions and get a hand-picked Dubai property shortlist on WhatsApp.',
+  title: 'Isamelo Real Estate - Dubai',
+  description: 'Find your ideal Dubai property with Isamelo Real Estate.',
   generator: 'v0.app',
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: '/samelo-logo.png',
+        type: 'image/png',
       },
     ],
-    apple: '/apple-icon.png',
+    apple: '/samelo-logo.png',
   },
 }
 
