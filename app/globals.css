@@ -197,6 +197,38 @@ h1 em{font-style:italic;color:var(--brass)}
 .steps h3{font-size:15.5px;font-weight:600;margin:0 0 6px;letter-spacing:-.005em}
 .steps p{font-size:13.5px;color:var(--text-dim);margin:0;line-height:1.55}
 
+/* ---------- guide ---------- */
+.guide{border-top:1px solid var(--ink-3);background:var(--ink-2)}
+.guide .wrap{padding-block:clamp(44px,6vw,72px)}
+.guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 36px;margin-top:4px}
+@media(max-width:760px){.guide-grid{grid-template-columns:1fr}}
+.guide-item h3{font-family:var(--font-display);font-size:16px;font-weight:600;margin:0 0 8px;line-height:1.35;letter-spacing:-.005em}
+.guide-item p{font-size:14px;color:var(--text-dim);margin:0;line-height:1.6;max-width:62ch}
+.guide-cite{margin:34px 0 0;padding-top:18px;border-top:1px solid var(--ink-3);font-size:12.5px;color:var(--text-dim);line-height:1.6;max-width:84ch}
+.guide-cite a{color:var(--brass);text-decoration:none}
+.guide-cite a:hover{text-decoration:underline}
+
+/* ---------- faq ---------- */
+.faq-sec{border-top:1px solid var(--ink-3)}
+.faq-sec .wrap{padding-block:clamp(44px,6vw,72px)}
+.faq-list{max-width:840px;margin:0;padding:0;list-style:none;border-top:1px solid var(--ink-3)}
+.faq-list li{margin:0}
+.faq-list details{border-bottom:1px solid var(--ink-3)}
+.faq-list summary{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  cursor:pointer;list-style:none;padding:19px 4px;
+  font-family:var(--font-display);font-size:17px;font-weight:600;line-height:1.35;color:var(--text);
+}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary::after{content:"+";flex:none;font-family:var(--font-ui);font-size:21px;font-weight:400;line-height:1;color:var(--brass);transition:transform .18s ease}
+.faq-list details[open] summary::after{transform:rotate(45deg)}
+.faq-list details p{margin:0;padding:0 4px 20px;font-size:14.5px;line-height:1.6;color:var(--text-dim);max-width:72ch}
+
+/* footer nav */
+.foot-nav{display:flex;flex-wrap:wrap;gap:6px 22px}
+.foot-nav a{font-size:12px;font-weight:500;color:var(--text-dim);text-decoration:none;transition:color .16s}
+.foot-nav a:hover{color:var(--text)}
+
 /* ---------- footer ---------- */
 footer{border-top:1px solid var(--ink-3)}
 footer .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding-block:24px}

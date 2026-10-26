@@ -1,0 +1,31 @@
+# Isamelo Real Estate Dubai
+
+> Find your ideal Dubai property in 60 seconds. Answer 8 quick questions and receive a hand-picked shortlist on WhatsApp, with payment plans, full costs and Golden Visa guidance included.
+
+## About
+
+Isamelo Real Estate is a RERA-certified Dubai brokerage helping buyers and investors find off-plan and ready properties in Downtown Dubai, Dubai Marina and Palm Jumeirah. The site is available in English, Portuguese and Spanish.
+
+## Key facts
+
+- 0% annual property tax on Dubai property, with no tax on rental income for individuals
+- 5–8% typical gross rental yield in established communities, ahead of London, Singapore and Hong Kong
+- AED 2M property threshold for the 10-year Golden Visa
+- Foreign nationals can buy freehold property in designated communities
+- Budget around 4% Dubai Land Department fee and 2% agency fees on top of the purchase price
+
+## Services
+
+- Off-plan launches with flexible payment plans
+- Ready-to-move-in units
+- Budget, timeline and goal-based matching against live stock
+- Shortlist delivery on WhatsApp within the hour, including floor plans, payment schedules, service charges and transfer costs
+
+## Get started
+
+Answer the 8-question matching questionnaire at https://find.isamelorealestate.com and receive your property shortlist on WhatsApp.
+
+## More detail
+
+- Full guidance: https://find.isamelorealestate.com/llms-full.txt
+- Short summary: https://find.isamelorealestate.com/llms-small.txt
