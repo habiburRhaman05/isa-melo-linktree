@@ -77,7 +77,7 @@ h1{
 }
 h1 em{font-style:italic;color:var(--brass)}
 .lede{font-size:clamp(16px,1.6vw,18.5px);color:var(--text-dim);max-width:46ch;margin:0 0 30px}
-.lede b{color:var(--text);font-weight:600}
+.lede b,.lede strong{color:#fff;font-weight:700}
 
 /* agent strip */
 .agent{display:flex;align-items:center;gap:16px;padding:16px 18px;border:1px solid var(--ink-3);border-radius:2px;background:rgba(255,255,255,.025);max-width:460px}
