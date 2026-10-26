@@ -360,6 +360,9 @@ const copies = {
 
 type Answers = Record<string, string>
 const langNames: Record<Lang, string> = { en: 'English', pt: 'Português', es: 'Español' }
+const LANG_KEY = 'isamelo-lang'
+const GATE_KEY = 'isamelo-lang-chosen'
+const isLang = (v: string | null): v is Lang => v === 'en' || v === 'pt' || v === 'es'
 
 function Flag({ lang }: { lang: string }) {
   const flags = { en: ['us', 'United States flag'], pt: ['br', 'Brazil flag'], es: ['es', 'Spain flag'] } as const
@@ -370,7 +373,7 @@ function Mark() { return <div className="mark"><b>Real Estate</b><i>Dubai</i></d
 
 export default function Page() {
   const [lang, setLang] = useState<Lang>('en')
-  const [gate, setGate] = useState(true)
+  const [gate, setGate] = useState(false)
   const [menu, setMenu] = useState(false)
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Answers>({})
@@ -385,6 +388,15 @@ export default function Page() {
   const copy = useMemo(() => copies[lang], [lang])
 
   useEffect(() => { document.documentElement.lang = lang }, [lang])
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(LANG_KEY)
+      if (isLang(saved)) setLang(saved)
+      setGate(localStorage.getItem(GATE_KEY) !== '1')
+    } catch {
+      setGate(true)
+    }
+  }, [])
   useEffect(() => {
     if (!menu) return
     const onDown = (e: MouseEvent | TouchEvent) => {
@@ -404,6 +416,7 @@ export default function Page() {
     if (code === lang) return
     setLang(code)
     setError('')
+    try { localStorage.setItem(LANG_KEY, code) } catch { /* storage unavailable */ }
     if (!done) { setAnswers({}); setStep(0) }
   }
   const advance = () => { setError(''); setStep(s => Math.min(s + 1, questions.length - 1)) }
@@ -459,7 +472,7 @@ export default function Page() {
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [...copy.faqs, ...copy.guideQs].map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }) }} />
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'HowTo', name: copy.howToName, description: copy.howToDesc, step: [{ '@type': 'HowToStep', name: copy.step1Title, text: copy.step1Desc }, { '@type': 'HowToStep', name: copy.step2Title, text: copy.step2Desc }, { '@type': 'HowToStep', name: copy.step3Title, text: copy.step3Desc }] }) }} />
     <div className="rail" aria-hidden="true"><span style={{ width: done ? '100%' : `${step / questions.length * 100}%` }} /></div>
-    {gate && <div className="gate" role="dialog" aria-modal="true"><div className="gate-card"><Mark /><h2>Choose your language<br />Escolha seu idioma<br />Elige tu idioma</h2><div className="gate-opts">{(['en', 'pt', 'es'] as Lang[]).map(code => <button className="lang-btn" key={code} onClick={() => { setLang(code); setGate(false) }}><Flag lang={code} /><span><b>{langNames[code]}</b><em>{code === 'en' ? 'United States · Canada' : code === 'pt' ? 'Brasil' : 'España · América Latina'}</em></span></button>)}</div></div></div>}
+    {gate && <div className="gate" role="dialog" aria-modal="true"><div className="gate-card"><Mark /><h2>Choose your language<br />Escolha seu idioma<br />Elige tu idioma</h2><div className="gate-opts">{(['en', 'pt', 'es'] as Lang[]).map(code => <button className="lang-btn" key={code} onClick={() => { setLang(code); setGate(false); try { localStorage.setItem(LANG_KEY, code); localStorage.setItem(GATE_KEY, '1') } catch { /* storage unavailable */ } }}><Flag lang={code} /><span><b>{langNames[code]}</b><em>{code === 'en' ? 'United States · Canada' : code === 'pt' ? 'Brasil' : 'España · América Latina'}</em></span></button>)}</div></div></div>}
     <header className="masthead"><div className="wrap"><Mark /><div className="mast-right"><div className="cert"><svg className="cert-icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 3.5 19 6v5.2c0 4.4-2.9 7.8-7 9.3-4.1-1.5-7-4.9-7-9.3V6l7-2.5Z" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinejoin="round"/><path d="m8.7 12.1 2.1 2.1 4.5-4.6" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round"/></svg><span>{copy.cert}</span></div><div className="lang-wrap" ref={langWrapRef}><button className="lang-switch" aria-expanded={menu} aria-label={copy.langAria} onClick={() => setMenu(!menu)}><Flag lang={lang} /><span>{langNames[lang]}</span><svg className="caret" viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2.25 4.25 6 8l3.75-3.75" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg></button>{menu && <ul className="lang-menu">{(['en', 'pt', 'es'] as Lang[]).map(code => <li key={code}><button onClick={() => changeLang(code)}><Flag lang={code} />{langNames[code]}</button></li>)}</ul>}</div></div></div></header>
     <main className="stage"><svg className="skyline" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true"><g fill="#1B2B42"><rect x="0" y="150" width="78" height="70" /><rect x="84" y="128" width="44" height="92" /><rect x="134" y="162" width="62" height="58" /><rect x="202" y="104" width="38" height="116" /><rect x="246" y="140" width="70" height="80" /><polygon points="640,220 620,220 626,126 634,58 640,30 643,0 646,30 652,58 660,126 666,220" /><rect x="800" y="120" width="36" height="100" /><rect x="920" y="100" width="44" height="120" /><rect x="1086" y="156" width="78" height="64" /><rect x="1288" y="116" width="40" height="104" /></g></svg><div className="wrap"><div className="split"><div><p className="eyebrow">{copy.eyebrow}</p><h1>{copy.hero} <em>{copy.seconds}</em></h1><p className="lede">{copy.lede}</p><div className="agent"><div className="shot"><img src="/isa-melo-agent.jpg" alt="Property consultant" /></div><dl><dt>{config.agentName}</dt><dd>{copy.role}</dd></dl></div><ul className="chips"><li>{copy.locations}</li><li>{copy.reply}</li></ul></div><section className="card" id="get-started" aria-label={copy.cardAria}><div className="card-head"><span className="step-of">{done ? copy.complete : `${copy.question} ${step + 1} ${copy.of} ${questions.length}`}</span><div className="pips">{questions.map((_, i) => <i className={i <= step || done ? 'on' : ''} key={i} />)}</div></div><div className="card-body">{done ? <div className="done"><div className="seal">✓</div><h2>{copy.thanks}, {answers.first}. {copy.doneTitle}</h2><p>{copy.doneBody}</p><dl className="recap">{[[copy.recapIntent, answers.intent], [copy.recapTimeline, answers.timeline], [copy.recapBudget, answers.budget], [copy.recapGoal, answers.goal]].map(([a, b]) => <div key={a}><dt>{a}</dt><dd>{b}</dd></div>)}<div><dt>{copy.recapPriority}</dt><dd><span className="tier">{tier}</span></dd></div></dl><a className="btn wa" href={wa} rel="noopener">{copy.wa}</a><p className="countdown">{seconds ? `${copy.countdownOpen} ${seconds}s…` : copy.countdownFallback}</p></div> : <><h2 className="q">{q.q}</h2>{q.note && <p className="q-note">{q.note}</p>}{q.type === 'choice' && <ul className="opts">{(q.options ?? []).map((o, i) => <li key={o}><button className={`opt ${answers[q.id] === o ? 'sel' : ''}`} onClick={() => { setAnswer(q.id, o); setTimeout(advance, 190) }}><span className="key">{i + 1}</span><span className="txt">{o}{q.id === 'budget' && copy.subs[i] && <span className="sub">{copy.subs[i]}</span>}</span></button></li>)}</ul>}{q.type === 'text' && <><label className="field"><span>{copy.nationality}</span><input value={answers.nationality || ''} onChange={e => setAnswer('nationality', e.target.value)} placeholder={copy.phNationality} /></label><span className="err" hidden={!error}>{error}</span><div className="actions"><button className="btn" onClick={() => collect() && advance()}>{copy.next}</button></div></>}{q.type === 'textarea' && <><label className="field"><span>{copy.message}</span><textarea value={answers.notes || ''} onChange={e => setAnswer('notes', e.target.value)} placeholder={copy.phNotes} /></label><div className="actions"><button className="btn ghost" onClick={() => advance()}>{copy.skip}</button><button className="btn" onClick={advance}>{copy.next}</button></div></>}{q.type === 'contact' && <><div className="row2"><label className="field"><span>{copy.firstName}</span><input value={answers.first || ''} onChange={e => setAnswer('first', e.target.value)} /></label><label className="field"><span>{copy.lastName}</span><input value={answers.last || ''} onChange={e => setAnswer('last', e.target.value)} /></label></div><label className="field"><span>{copy.email}</span><input type="email" value={answers.email || ''} onChange={e => setAnswer('email', e.target.value)} placeholder="you@example.com" /></label><label className="field"><span>{copy.waNumber}</span><input type="tel" value={answers.phone || ''} onChange={e => setAnswer('phone', e.target.value)} placeholder="50 123 4567" /></label><span className="err" hidden={!error}>{error}</span><div className="actions"><button className="btn ghost" onClick={() => setStep(step - 1)}>{copy.back}</button><button className="btn" onClick={submit}>{copy.submit}</button></div><p className="consent">{copy.consent}</p></>}</>}</div></section></div></div></main>
     <section className="proof" id="why-dubai"><div className="wrap"><p className="sec-label">{copy.whyTitle}</p><div className="stats"><div className="stat"><b>0%</b><span>{copy.stat1Label}</span><small>{copy.stat1Desc}</small></div><div className="stat"><b>5–8%</b><span>{copy.stat2Label}</span><small>{copy.stat2Desc}</small></div><div className="stat"><b>AED 2M</b><span>{copy.stat3Label}</span><small>{copy.stat3Desc}</small></div></div><ol className="steps"><li><h3>{copy.step1Title}</h3><p>{copy.step1Desc}</p></li><li><h3>{copy.step2Title}</h3><p>{copy.step2Desc}</p></li><li><h3>{copy.step3Title}</h3><p>{copy.step3Desc}</p></li></ol></div></section>
