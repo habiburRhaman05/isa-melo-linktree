@@ -23,9 +23,14 @@ Isamelo Real Estate is a RERA-certified Dubai brokerage helping buyers and inves
 
 ## Get started
 
-Answer the 8-question matching questionnaire at https://find.isamelorealestate.com and receive your property shortlist on WhatsApp.
+- [Property matching questionnaire](https://find.isamelorealestate.com): Answer 8 quick questions and receive your property shortlist on WhatsApp.
 
 ## More detail
 
-- Full guidance: https://find.isamelorealestate.com/llms-full.txt
-- Short summary: https://find.isamelorealestate.com/llms-small.txt
+- [Full guidance](https://find.isamelorealestate.com/llms-full.txt): Complete overview of services, costs, communities and the Golden Visa process.
+- [Short summary](https://find.isamelorealestate.com/llms-small.txt): A compact version of this document.
+
+## Reference
+
+- [Dubai Land Department](https://dubailand.gov.ae/en/): Official source for transfer fees and property regulations.
+- [UAE Government portal](https://u.ae/en/): Official guidance on the Golden Visa and residency.
