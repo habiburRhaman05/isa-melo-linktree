@@ -10,8 +10,8 @@ const questionSets: Record<Lang, Question[]> = {
     { id: 'intent', q: 'What are you looking to do?', type: 'choice', options: ['Buy', 'Invest', 'Sell'] },
     { id: 'timeline', q: 'When are you planning to move forward?', type: 'choice', options: ['Immediately', 'Within the next 6 to 12 months', 'In one year', 'Just exploring for now'] },
     { id: 'budget', q: "What's your budget?", type: 'choice', options: ['Under AED 1M', 'AED 1M – 2M', 'AED 2M – 5M', 'AED 5M+'] },
-    { id: 'payment', q: 'How are you planning to pay?', type: 'choice', options: ['Cash', 'Mortgage', 'Payment plan (off-plan)', 'Not sure yet'] },
-    { id: 'goal', q: "What's the main goal for this property?", type: 'choice', options: ['Live in it', 'Rental income', 'Long-term investment / capital growth', 'Golden Visa'] },
+    { id: 'payment', q: 'How are you planning to pay?', type: 'choice', options: ['Cash', 'Payment plan (off-plan)', 'Not sure yet'] },
+    { id: 'goal', q: "What's the main goal for this property?", type: 'choice', options: ['Live in it', 'Rental income', 'Short term rental / Airbnb', 'Long-term investment / capital growth', 'Golden Visa'] },
     { id: 'nationality', q: "What's your nationality?", type: 'text', note: 'Some communities and payment plans depend on it.' },
     { id: 'notes', q: 'Anything else I should know?', type: 'textarea', note: 'Optional. A preferred area, bedroom count, or anything specific you are after.' },
     { id: 'contact', q: 'Where should I send your shortlist?', type: 'contact', note: "I'll prepare it and send it over on WhatsApp." },
@@ -20,8 +20,8 @@ const questionSets: Record<Lang, Question[]> = {
     { id: 'intent', q: 'O que você procura fazer?', type: 'choice', options: ['Comprar', 'Investir', 'Vender'] },
     { id: 'timeline', q: 'Quando pretende avançar?', type: 'choice', options: ['Imediatamente', 'Nos próximos 6 a 12 meses', 'Em um ano', 'Apenas pesquisando'] },
     { id: 'budget', q: 'Qual é o seu orçamento?', type: 'choice', options: ['Menos de AED 1M', 'AED 1M – 2M', 'AED 2M – 5M', 'AED 5M+'] },
-    { id: 'payment', q: 'Como pretende pagar?', type: 'choice', options: ['À vista', 'Financiamento', 'Plano de pagamento (lançamento)', 'Ainda não sei'] },
-    { id: 'goal', q: 'Qual é o principal objetivo deste imóvel?', type: 'choice', options: ['Morar nele', 'Renda de aluguel', 'Investimento de longo prazo', 'Golden Visa'] },
+    { id: 'payment', q: 'Como pretende pagar?', type: 'choice', options: ['À vista', 'Plano de pagamento (lançamento)', 'Ainda não sei'] },
+    { id: 'goal', q: 'Qual é o principal objetivo deste imóvel?', type: 'choice', options: ['Morar nele', 'Renda de aluguel', 'Aluguel de curto prazo / Airbnb', 'Investimento de longo prazo', 'Golden Visa'] },
     { id: 'nationality', q: 'Qual é a sua nacionalidade?', type: 'text', note: 'Algumas comunidades e planos de pagamento dependem disso.' },
     { id: 'notes', q: 'Há mais alguma coisa que eu deva saber?', type: 'textarea', note: 'Opcional. Região, número de quartos ou algo específico que procura.' },
     { id: 'contact', q: 'Para onde devo enviar sua seleção?', type: 'contact', note: 'Vou preparar tudo e enviar pelo WhatsApp.' },
@@ -30,8 +30,8 @@ const questionSets: Record<Lang, Question[]> = {
     { id: 'intent', q: '¿Qué te gustaría hacer?', type: 'choice', options: ['Comprar', 'Invertir', 'Vender'] },
     { id: 'timeline', q: '¿Cuándo piensas avanzar?', type: 'choice', options: ['Inmediatamente', 'En los próximos 6 a 12 meses', 'En un año', 'Solo estoy explorando'] },
     { id: 'budget', q: '¿Cuál es tu presupuesto?', type: 'choice', options: ['Menos de AED 1M', 'AED 1M – 2M', 'AED 2M – 5M', 'AED 5M+'] },
-    { id: 'payment', q: '¿Cómo piensas pagar?', type: 'choice', options: ['Al contado', 'Hipoteca', 'Plan de pagos (sobre plano)', 'Aún no lo sé'] },
-    { id: 'goal', q: '¿Cuál es el objetivo principal de esta propiedad?', type: 'choice', options: ['Vivir en ella', 'Ingresos por alquiler', 'Inversión a largo plazo', 'Golden Visa'] },
+    { id: 'payment', q: '¿Cómo piensas pagar?', type: 'choice', options: ['Al contado', 'Plan de pagos (sobre plano)', 'Aún no lo sé'] },
+    { id: 'goal', q: '¿Cuál es el objetivo principal de esta propiedad?', type: 'choice', options: ['Vivir en ella', 'Ingresos por alquiler', 'Alquiler a corto plazo / Airbnb', 'Inversión a largo plazo', 'Golden Visa'] },
     { id: 'nationality', q: '¿Cuál es tu nacionalidad?', type: 'text', note: 'Algunas comunidades y planes de pago dependen de ella.' },
     { id: 'notes', q: '¿Hay algo más que deba saber?', type: 'textarea', note: 'Opcional. Zona preferida, número de habitaciones o algo específico.' },
     { id: 'contact', q: '¿Dónde envío tu selección?', type: 'contact', note: 'La prepararé y te la enviaré por WhatsApp.' },
@@ -470,7 +470,7 @@ export default function Page() {
     if (!question) return n
     const idx = (question.options ?? []).indexOf(answers[key])
     if (idx < 0) return n
-    const weights = { budget: [1, 2, 3, 4], timeline: [4, 3, 2, 1], payment: [4, 2, 3, 1] } as const
+    const weights = { budget: [1, 2, 3, 4], timeline: [4, 3, 2, 1], payment: [4, 3, 1] } as const
     return n + weights[key][idx]
   }, 0)
   const wa = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(`Hi ${config.agentName}, ${copy.waIntro}\n\n${copy.waName}: ${(answers.first || '') + ' ' + (answers.last || '')}\n${copy.waIntent}: ${answers.intent || ''}\n${copy.waTimeline}: ${answers.timeline || ''}\n${copy.waBudget}: ${answers.budget || ''}\n${copy.waPayment}: ${answers.payment || ''}\n${copy.waGoal}: ${answers.goal || ''}\n${copy.waNationality}: ${answers.nationality || ''}\n${copy.waAsk}`)}`
