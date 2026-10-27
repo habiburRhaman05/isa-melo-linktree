@@ -8,7 +8,7 @@ type Question = { id: string; q: string; type: 'choice' | 'text' | 'textarea' | 
 const questionSets: Record<Lang, Question[]> = {
   en: [
     { id: 'intent', q: 'What are you looking to do?', type: 'choice', options: ['Buy', 'Invest', 'Sell'] },
-    { id: 'timeline', q: 'When are you planning to move forward?', type: 'choice', options: ['Immediately', 'Within 1–3 months', 'Within 3–6 months', 'Just exploring for now'] },
+    { id: 'timeline', q: 'When are you planning to move forward?', type: 'choice', options: ['Immediately', 'Within the next 6 to 12 months', 'In one year', 'Just exploring for now'] },
     { id: 'budget', q: "What's your budget?", type: 'choice', options: ['Under AED 1M', 'AED 1M – 2M', 'AED 2M – 5M', 'AED 5M+'] },
     { id: 'payment', q: 'How are you planning to pay?', type: 'choice', options: ['Cash', 'Mortgage', 'Payment plan (off-plan)', 'Not sure yet'] },
     { id: 'goal', q: "What's the main goal for this property?", type: 'choice', options: ['Live in it', 'Rental income', 'Long-term investment / capital growth', 'Golden Visa'] },
@@ -18,7 +18,7 @@ const questionSets: Record<Lang, Question[]> = {
   ],
   pt: [
     { id: 'intent', q: 'O que você procura fazer?', type: 'choice', options: ['Comprar', 'Investir', 'Vender'] },
-    { id: 'timeline', q: 'Quando pretende avançar?', type: 'choice', options: ['Imediatamente', 'Dentro de 1–3 meses', 'Dentro de 3–6 meses', 'Apenas pesquisando'] },
+    { id: 'timeline', q: 'Quando pretende avançar?', type: 'choice', options: ['Imediatamente', 'Nos próximos 6 a 12 meses', 'Em um ano', 'Apenas pesquisando'] },
     { id: 'budget', q: 'Qual é o seu orçamento?', type: 'choice', options: ['Menos de AED 1M', 'AED 1M – 2M', 'AED 2M – 5M', 'AED 5M+'] },
     { id: 'payment', q: 'Como pretende pagar?', type: 'choice', options: ['À vista', 'Financiamento', 'Plano de pagamento (lançamento)', 'Ainda não sei'] },
     { id: 'goal', q: 'Qual é o principal objetivo deste imóvel?', type: 'choice', options: ['Morar nele', 'Renda de aluguel', 'Investimento de longo prazo', 'Golden Visa'] },
@@ -28,7 +28,7 @@ const questionSets: Record<Lang, Question[]> = {
   ],
   es: [
     { id: 'intent', q: '¿Qué te gustaría hacer?', type: 'choice', options: ['Comprar', 'Invertir', 'Vender'] },
-    { id: 'timeline', q: '¿Cuándo piensas avanzar?', type: 'choice', options: ['Inmediatamente', 'En 1–3 meses', 'En 3–6 meses', 'Solo estoy explorando'] },
+    { id: 'timeline', q: '¿Cuándo piensas avanzar?', type: 'choice', options: ['Inmediatamente', 'En los próximos 6 a 12 meses', 'En un año', 'Solo estoy explorando'] },
     { id: 'budget', q: '¿Cuál es tu presupuesto?', type: 'choice', options: ['Menos de AED 1M', 'AED 1M – 2M', 'AED 2M – 5M', 'AED 5M+'] },
     { id: 'payment', q: '¿Cómo piensas pagar?', type: 'choice', options: ['Al contado', 'Hipoteca', 'Plan de pagos (sobre plano)', 'Aún no lo sé'] },
     { id: 'goal', q: '¿Cuál es el objetivo principal de esta propiedad?', type: 'choice', options: ['Vivir en ella', 'Ingresos por alquiler', 'Inversión a largo plazo', 'Golden Visa'] },
