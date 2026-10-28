@@ -140,12 +140,12 @@ h1 em{font-style:italic;color:var(--brass)}
 .field input::placeholder,.field textarea::placeholder{color:#A3A9B4}
 .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--claret);outline:none}
 .field textarea{resize:vertical;min-height:92px;line-height:1.5}
-.tel{display:grid;grid-template-columns:118px minmax(0,1fr);gap:8px}
-.tel select{padding-inline:10px;font-variant-numeric:tabular-nums}
+.tel{display:grid;grid-template-columns:128px minmax(0,1fr);gap:8px}
+.tel select{padding-inline:10px;font-size:15px;font-variant-numeric:tabular-nums}
 .err{display:block;font-size:12.5px;color:var(--claret);margin-top:6px;font-weight:500}
 
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:420px){.row2{grid-template-columns:1fr}.tel{grid-template-columns:104px minmax(0,1fr)}}
+@media(max-width:420px){.row2{grid-template-columns:1fr}.tel{grid-template-columns:116px minmax(0,1fr)}}
 
 .actions{display:flex;align-items:center;gap:10px;margin-top:18px}
 .btn{
