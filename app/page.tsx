@@ -2,6 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void
+  }
+}
+
 const config = { agentName: 'Isadora Melo', whatsappNumber: '971504793112', redirectSeconds: 6 }
 type Lang = 'en' | 'pt' | 'es'
 type Question = { id: string; q: string; type: 'choice' | 'text' | 'textarea' | 'contact'; options?: readonly string[]; note?: string }
@@ -451,6 +457,7 @@ export default function Page() {
 
     try {
       const t = score >= 10 ? 'Priority' : score >= 7 ? 'Warm' : 'Nurture'
+      const eventId = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `lead-${Date.now()}-${Math.random().toString(36).slice(2)}`
       const response = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -461,10 +468,13 @@ export default function Page() {
           answers,
           score,
           tier: t,
+          eventId,
+          pageUrl: typeof location !== 'undefined' ? location.href : undefined,
         }),
       })
 
       if (!response.ok) throw new Error('Lead delivery failed')
+      window.fbq?.('track', 'Lead', { content_name: 'dubai-property-questionnaire', value: score, currency: 'AED' }, { eventID: eventId })
       setDone(true)
     } catch {
       setError(copy.errSubmit)
