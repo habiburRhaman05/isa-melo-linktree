@@ -377,6 +377,8 @@ type Answers = Record<string, string>
 const langNames: Record<Lang, string> = { en: 'English', pt: 'Português', es: 'Español' }
 const LANG_KEY = 'isamelo-lang'
 const GATE_KEY = 'isamelo-lang-chosen'
+const UTM_KEY = 'isamelo-utm'
+const UTM_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'fbclid', 'gclid'] as const
 const isLang = (v: string | null): v is Lang => v === 'en' || v === 'pt' || v === 'es'
 const dialCodes = [
   ['AE', '971'], ['BR', '55'], ['US/CA', '1'], ['PT', '351'], ['IN', '91'], ['GB', '44'],
@@ -403,11 +405,26 @@ export default function Page() {
   const [error, setError] = useState('')
   const [seconds, setSeconds] = useState(config.redirectSeconds)
   const langWrapRef = useRef<HTMLDivElement>(null)
+  const utmRef = useRef<Record<string, string>>({})
   const questions = questionSets[lang]
   const q = questions[step]
   const copy = useMemo(() => copies[lang], [lang])
 
   useEffect(() => { document.documentElement.lang = lang }, [lang])
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(location.search)
+      const fromUrl: Record<string, string> = {}
+      UTM_FIELDS.forEach(key => { const v = params.get(key); if (v) fromUrl[key] = v })
+      if (Object.keys(fromUrl).length) {
+        utmRef.current = fromUrl
+        sessionStorage.setItem(UTM_KEY, JSON.stringify(fromUrl))
+      } else {
+        const saved = sessionStorage.getItem(UTM_KEY)
+        if (saved) utmRef.current = JSON.parse(saved)
+      }
+    } catch { /* url or storage unavailable */ }
+  }, [])
   useEffect(() => {
     try {
       const saved = localStorage.getItem(LANG_KEY)
@@ -470,6 +487,7 @@ export default function Page() {
           tier: t,
           eventId,
           pageUrl: typeof location !== 'undefined' ? location.href : undefined,
+          ...utmRef.current,
         }),
       })
 
