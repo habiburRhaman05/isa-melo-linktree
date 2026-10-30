@@ -475,6 +475,8 @@ export default function Page() {
     try {
       const t = score >= 10 ? 'Priority' : score >= 7 ? 'Warm' : 'Nurture'
       const eventId = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `lead-${Date.now()}-${Math.random().toString(36).slice(2)}`
+      const utm: Record<string, string> = {}
+      UTM_FIELDS.forEach(key => { utm[key] = utmRef.current[key] ?? '' })
       const response = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -487,7 +489,7 @@ export default function Page() {
           tier: t,
           eventId,
           pageUrl: typeof location !== 'undefined' ? location.href : undefined,
-          ...utmRef.current,
+          ...utm,
         }),
       })
 
