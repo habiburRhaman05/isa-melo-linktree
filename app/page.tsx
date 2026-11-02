@@ -106,7 +106,8 @@ const copies = {
     step3Title: 'Your shortlist lands on WhatsApp',
     step3Desc: 'Floor plans, payment schedules, service charges and every cost with full transparency.',
     footer: 'Your details are used only to prepare and send your property shortlist. Figures shown are market indicators, not a guarantee of return.',
-    waIntro: 'I just finished your Dubai property questionnaire.',
+    waGreeting: 'Hello Isadora Melo,',
+    waOpening: 'I just completed your Dubai property questionnaire and would like to know more about the options available for me.',
     waName: 'Name',
     waIntent: 'Looking to',
     waTimeline: 'Timeline',
@@ -114,7 +115,8 @@ const copies = {
     waPayment: 'Payment',
     waGoal: 'Main goal',
     waNationality: 'Nationality',
-    waAsk: 'Please send my shortlist.',
+    waAsk: 'Could we arrange a short conversation at your convenience to go through my personalized shortlist?',
+    waClosing: 'Thank you,',
     faqTitle: 'Frequently asked questions',
     faqs: [
       { q: 'What does it cost to buy property in Dubai?', a: 'On top of the purchase price, allow around 4% for the Dubai Land Department fee and about 2% for agency fees. There is no annual property tax and no tax on rental income for individuals.' },
@@ -212,7 +214,8 @@ const copies = {
     step3Title: 'Sua seleção chega no WhatsApp',
     step3Desc: 'Plantas, cronogramas de pagamento, taxas de condomínio e todos os custos com total transparência.',
     footer: 'Seus dados são usados apenas para preparar e enviar sua seleção de imóveis. Os números exibidos são indicadores de mercado, não uma garantia de retorno.',
-    waIntro: 'Acabei de responder seu questionário de imóveis em Dubai.',
+    waGreeting: 'Olá, Isadora Melo,',
+    waOpening: 'Acabei de responder ao seu questionário de imóveis em Dubai e gostaria de saber mais sobre as opções disponíveis para mim.',
     waName: 'Nome',
     waIntent: 'Intenção',
     waTimeline: 'Prazo',
@@ -220,7 +223,8 @@ const copies = {
     waPayment: 'Pagamento',
     waGoal: 'Objetivo principal',
     waNationality: 'Nacionalidade',
-    waAsk: 'Por favor, envie minha seleção.',
+    waAsk: 'Poderíamos agendar uma breve conversa quando for conveniente para você, para revisar minha seleção personalizada?',
+    waClosing: 'Obrigado(a),',
     faqTitle: 'Perguntas frequentes',
     faqs: [
       { q: 'Quanto custa comprar um imóvel em Dubai?', a: 'Além do preço de compra, reserve cerca de 4% para a taxa do Dubai Land Department e 2% para corretagem. Não há imposto predial anual nem imposto sobre renda de aluguel para pessoas físicas.' },
@@ -322,7 +326,8 @@ const copies = {
     step3Title: 'Tu selección llega a WhatsApp',
     step3Desc: 'Planos, calendarios de pago, cargos de servicio y todos los costos con total transparencia.',
     footer: 'Tus datos se usan solo para preparar y enviar tu selección de propiedades. Las cifras mostradas son indicadores de mercado, no una garantía de rentabilidad.',
-    waIntro: 'Acabo de completar tu cuestionario de propiedades en Dubái.',
+    waGreeting: 'Hola, Isadora Melo,',
+    waOpening: 'Acabo de completar tu cuestionario de propiedades en Dubái y me gustaría conocer más sobre las opciones disponibles para mí.',
     waName: 'Nombre',
     waIntent: 'Intención',
     waTimeline: 'Plazo',
@@ -330,7 +335,8 @@ const copies = {
     waPayment: 'Pago',
     waGoal: 'Objetivo principal',
     waNationality: 'Nacionalidad',
-    waAsk: 'Por favor, envíame mi selección.',
+    waAsk: '¿Podríamos coordinar una breve conversación cuando te sea conveniente para revisar mi selección personalizada?',
+    waClosing: 'Gracias,',
     faqTitle: 'Preguntas frecuentes',
     faqs: [
       { q: '¿Cuánto cuesta comprar una propiedad en Dubái?', a: 'Además del precio de compra, reserva alrededor del 4% para la tasa del Dubai Land Department y un 2% para la agencia. No hay impuesto anual sobre la propiedad ni impuesto sobre ingresos por alquiler para particulares.' },
@@ -510,7 +516,28 @@ export default function Page() {
     const weights = { budget: [1, 2, 3, 4], timeline: [4, 3, 2, 1], payment: [4, 3, 1] } as const
     return n + weights[key][idx]
   }, 0)
-  const wa = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(`Hi ${config.agentName}, ${copy.waIntro}\n\n${copy.waName}: ${(answers.first || '') + ' ' + (answers.last || '')}\n${copy.waIntent}: ${answers.intent || ''}\n${copy.waTimeline}: ${answers.timeline || ''}\n${copy.waBudget}: ${answers.budget || ''}\n${copy.waPayment}: ${answers.payment || ''}\n${copy.waGoal}: ${answers.goal || ''}\n${copy.waNationality}: ${answers.nationality || ''}\n${copy.waAsk}`)}`
+  const waName = `${answers.first || ''} ${answers.last || ''}`.trim()
+  const waPhone = answers.phone ? `+${answers.phoneCode || '971'} ${answers.phone}` : ''
+  const waMessage = [
+    copy.waGreeting,
+    '',
+    copy.waOpening,
+    '',
+    `• ${copy.waName}: ${waName}`,
+    `• ${copy.email}: ${answers.email || ''}`,
+    `• ${copy.waNumber}: ${waPhone}`,
+    `• ${copy.waIntent}: ${answers.intent || ''}`,
+    `• ${copy.waTimeline}: ${answers.timeline || ''}`,
+    `• ${copy.waBudget}: ${answers.budget || ''}`,
+    `• ${copy.waPayment}: ${answers.payment || ''}`,
+    `• ${copy.waGoal}: ${answers.goal || ''}`,
+    `• ${copy.waNationality}: ${answers.nationality || ''}`,
+    '',
+    copy.waAsk,
+    '',
+    waName ? `${copy.waClosing} ${waName}` : copy.waClosing,
+  ].join('\n')
+  const wa = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(waMessage)}`
 
   return <>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [...copy.faqs, ...copy.guideQs].map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }) }} />
