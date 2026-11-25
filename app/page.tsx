@@ -387,7 +387,7 @@ const UTM_KEY = 'isamelo-utm'
 const UTM_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'fbclid', 'gclid'] as const
 const isLang = (v: string | null): v is Lang => v === 'en' || v === 'pt' || v === 'es'
 const dialCodes = [
-  ['AE', '971'], ['BR', '55'], ['US/CA', '1'], ['PT', '351'], ['IN', '91'], ['GB', '44'],
+  ['AE', '971'], ['BR', '55'], ['US/CA', '1'], ['PT', '351'], ['IN', '91'], ['BD', '880'], ['GB', '44'],
   ['RU', '7'], ['PK', '92'], ['CN', '86'], ['SA', '966'], ['EG', '20'], ['FR', '33'],
   ['DE', '49'], ['IT', '39'], ['TR', '90'], ['LB', '961'], ['JO', '962'], ['NG', '234'],
   ['KE', '254'], ['ZA', '27'],
