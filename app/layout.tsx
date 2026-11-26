@@ -118,7 +118,16 @@ t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '${metaPixelId}');
-fbq('track', 'PageView');`,
+(function () {
+  var eventId = window.crypto && window.crypto.randomUUID ? window.crypto.randomUUID() : 'pv-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+  fetch('/api/page-view', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({eventId: eventId, path: location.pathname}),
+    keepalive: true
+  }).catch(function () {});
+  fbq('track', 'PageView', {}, {eventID: eventId});
+})();`,
           }} />
         )}
         {children}

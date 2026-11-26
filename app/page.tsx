@@ -501,10 +501,14 @@ export default function Page() {
       })
 
       if (!response.ok) throw new Error('Lead delivery failed')
-      window.dataLayer = window.dataLayer || []
-      window.dataLayer.push({ event: 'generate_lead', event_id: eventId, form_id: 'dubai-property-questionnaire' })
-      window.fbq?.('track', 'Lead', { content_name: 'dubai-property-questionnaire' }, { eventID: eventId })
       setDone(true)
+      try {
+        window.dataLayer = window.dataLayer || []
+        window.dataLayer.push({ event: 'generate_lead', event_id: eventId, form_id: 'dubai-property-questionnaire' })
+        window.fbq?.('track', 'Lead', { content_name: 'dubai-property-questionnaire' }, { eventID: eventId })
+      } catch {
+        console.warn('Lead tracking was unavailable')
+      }
     } catch {
       setError(copy.errSubmit)
     } finally {
