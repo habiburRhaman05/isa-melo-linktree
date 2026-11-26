@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto'
 import { NextResponse } from 'next/server'
 
 const GO_HIGH_LEVEL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/iGbC817rCzAfj7HtPYRs/webhook-trigger/acb94afa-4246-416c-a726-9c048def03d9'
-const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID
+const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || '1442980507901810'
 const META_CAPI_TOKEN = process.env.META_CONVERSIONS_API_TOKEN
 
 const sha256 = (value: string) => createHash('sha256').update(value.trim().toLowerCase()).digest('hex')
@@ -14,7 +14,8 @@ async function sendMetaLeadEvent(request: Request, payload: Record<string, unkno
   const userData: Record<string, unknown> = {}
 
   if (answers.email) userData.em = [sha256(answers.email)]
-  const phoneDigits = (answers.phone || '').replace(/\D/g, '')
+  const localPhone = (answers.phone || '').replace(/\D/g, '')
+  const phoneDigits = localPhone ? `${answers.phoneCode || '971'}${localPhone.replace(/^0+/, '')}` : ''
   if (phoneDigits) userData.ph = [sha256(phoneDigits)]
 
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()

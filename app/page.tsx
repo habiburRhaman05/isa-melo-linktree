@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void
+    dataLayer?: Record<string, unknown>[]
   }
 }
 
@@ -500,7 +501,9 @@ export default function Page() {
       })
 
       if (!response.ok) throw new Error('Lead delivery failed')
-      window.fbq?.('track', 'Lead', { content_name: 'dubai-property-questionnaire', value: score, currency: 'AED' }, { eventID: eventId })
+      window.dataLayer = window.dataLayer || []
+      window.dataLayer.push({ event: 'generate_lead', event_id: eventId, form_id: 'dubai-property-questionnaire' })
+      window.fbq?.('track', 'Lead', { content_name: 'dubai-property-questionnaire' }, { eventID: eventId })
       setDone(true)
     } catch {
       setError(copy.errSubmit)
